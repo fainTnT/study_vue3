@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // object.defineProperty不能监听对象属性的增加和删除,以及数组的修改
+    var obj = {
+      name:'yh',
+      age:'22'
+    }
+    var arr = [1,2,3]
+    // p 是代理对象 obj 是源对象
+    // var p = new Proxy(arr,{
+    //   get(target,propName){
+    //     console.log(`${target}对象的${propName}属性被读取了`)
+    //     return target[propName]
+    //   },
+    //   set(target,propName,value){
+    //     console.log(`${target}对象的${propName}属性被修改了`)
+    //     target[propName] = value
+    //   },
+    //   deleteProperty(target,propName){
+    //     console.log(`${target}对象的${propName}属性被删除了`)
+    //     return delete target[propName]
+    //   }
+    // })
+
+    // reflect 反射 es6 window上新增的方法 可以操作对象
+    Reflect.get(obj,'name')
+    Reflect.set(obj,'sex','men')
+    Reflect.deleteProperty(obj,'age')
+    console.log(obj)
+    // 这种方法操作对象 如果操作不成功不会报错 而是返回值为false
+    // vue通过返回值来判断操作是否成功
+    var p = new Proxy(arr,{
+      get(target,propName){
+        console.log(`${target}对象的${propName}属性被读取了`)
+        return Reflect.get(target,propName)
+      },
+      set(target,propName,value){
+        console.log(`${target}对象的${propName}属性被修改了`)
+        Reflect.set(target,propName,value)
+      },
+      deleteProperty(target,propName){
+        console.log(`${target}对象的${propName}属性被删除了`)
+        return Reflect.deleteProperty(target,propName)
+      }
+    })
+
+    // 1.vue通过ref把数据加工成引用对象
+    // 2.如果是基本类型会加工成object.defineProperty类型实现响应式 拿取数据需要.value的形式拿取
+    // 3.如果是复杂类型会通过reactive函数加工，内部通过proxy函数加工，再通过reflect对源对象修改实现响应式，可以直接拿取数据
+</script>
+</body>
+</html>
