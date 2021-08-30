@@ -1,45 +1,71 @@
 <template>
-  <div>
-    姓:<input type="text" v-model='obj.firstName'><br>
-    名:<input type="text" v-model='obj.lastName'><br>
-    obj.a.b:<input type="text" v-model='obj.a.b'><br>
-    A:<input type="text" v-model='a'><br>
-    B:<input type="text" v-model='b'><br>
-  </div>
+  <div></div>
 </template>
 
 <script>
-import {ref,reactive,watchEffect} from 'vue'
+import {
+  onBeforeMount,
+  onMounted,
+  onBeforeUpdate,
+  onUpdated,
+  onBeforeUnmount,
+  onUnmounted,
+} from "vue";
 export default {
-  name: 'App',
-  setup(){
-    let obj = reactive({
-      firstName:'yyy',
-      lastName:'hhh',
-      a:{
-        b:1
-      }
-    })
-    let a = ref(1);
-    let b = ref(2);
+  name: "App",
+  setup() {
+    // 区别:vue2在created之后再判断是否挂载了dom来进行下一步
+    //      vue3在beforeCreated之前就判断
+    //      vue3改变了卸载的名字
 
-    // 只要函数里出现的数据一旦发生改变就调用回调
-    watchEffect(()=>{
-      const x = a.value;
-      const y = obj.a.b
-      console.log('发生改变')
-    })
+    // 生命周期api形式 写在setup里面 需要引入
+    // beforeCreate created相当于setup
+    onBeforeMount(() => {
 
-    return {
-      obj,
-      a,
-      b,
-    }
+    });
+    onMounted(() => {
 
-  }
-}
+    });
+    onBeforeUpdate(() => {
+
+    });
+    onUpdated(() => {
+
+    });
+    onBeforeUnmount(() => {
+
+    });
+    onUnmounted(() => {
+
+    });
+  },
+  // 写外面 不需要引入
+  beforeCreate() {
+
+  },
+  created() {
+
+  },
+  beforeMount() {
+
+  },
+  mounted() {
+
+  },
+  beforeUpdate() {
+
+  },
+  updated() {
+
+  },
+  beforeUnmount() {
+
+  },
+  unmounted() {
+
+  },
+};
 </script>
 
 <style>
-
 </style>
